@@ -1,5 +1,7 @@
 package com.epam.gym.storage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +20,10 @@ public class MapDataStorage<K, T> implements DataStorage<K, T> {
 
     public T select(K key) {
         return entities.get(key);
+    }
+
+    public List<T> selectAll() {
+        return new ArrayList<>(entities.values());
     }
 
     public void insert(K key, T value) {
