@@ -1,15 +1,23 @@
 package com.epam.gym.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Builder
-public class Trainer extends User {
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Trainer extends User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String specialization;
     private TrainingType trainingType;
+
+    private Training training;
 }
