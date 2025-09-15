@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Trainer extends User implements Serializable {
+public class Trainer extends User {
     @Serial
     private static final long serialVersionUID = 1L;
 
