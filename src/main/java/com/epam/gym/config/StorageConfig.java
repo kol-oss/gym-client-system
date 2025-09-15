@@ -3,28 +3,26 @@ package com.epam.gym.config;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.Training;
+import com.epam.gym.properties.AppProperties;
 import com.epam.gym.storage.DataStorage;
-import com.epam.gym.storage.JsonDataStorage;
-import org.springframework.beans.factory.annotation.Value;
+import com.epam.gym.storage.FileDataStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.UUID;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 public class StorageConfig {
-    @Value("${app.data.storage.location}")
-    private String externalLocation;
+    private AppProperties appProperties;
 
-    @Value("${app.data.storage.save-updates}")
-    private boolean saveUpdates;
+    @Autowired
+    public void setAppProperties(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
 
     private <K, T> DataStorage<K, T> initStorage(Class<K> key, Class<T> type) {
-        JsonDataStorage<K, T> storage = new JsonDataStorage<>(key, type);
-        storage.setExternalStorage(externalLocation, saveUpdates);
-        return storage;
+        return new FileDataStorage<>(key, type, appProperties.getStorageLocation(), appProperties.isSaveUpdates());
     }
 
     @Bean
