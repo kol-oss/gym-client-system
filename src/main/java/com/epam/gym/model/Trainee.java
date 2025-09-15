@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Trainee extends User implements Serializable {
+public class Trainee extends User {
     @Serial
     private static final long serialVersionUID = 1L;
 
