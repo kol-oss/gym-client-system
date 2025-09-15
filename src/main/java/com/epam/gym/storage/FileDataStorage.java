@@ -4,6 +4,8 @@ import com.epam.gym.utils.FilesUtils;
 import com.epam.gym.utils.JsonUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.nio.file.Files;
 import java.util.Map;
 
 public class FileDataStorage<K, T> extends MapDataStorage<K, T> {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final String location;
     private final boolean saveUpdates;
 
@@ -22,35 +26,51 @@ public class FileDataStorage<K, T> extends MapDataStorage<K, T> {
     }
 
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         if (location == null || location.isEmpty()) {
             return;
         }
 
         File sourceFile = FilesUtils.getDataSource(location, valueClazz);
         if (!sourceFile.exists()) {
+            logger.warn("Data source does via path {} does not exist", sourceFile.getPath());
             return;
         }
 
         if (sourceFile.isDirectory()) {
-            throw new IOException("File by path " + sourceFile.getPath() + " is directory");
+            logger.error("Data source does via path {} is a directory", sourceFile.getPath());
+            return;
         }
 
-        String content = Files.readString(sourceFile.toPath());
-        Map<K, T> parsed = JsonUtils.fromJson(content, keyClazz, valueClazz);
+        Map<K, T> parsed;
+        try {
+            String content = Files.readString(sourceFile.toPath());
+            parsed = JsonUtils.fromJson(content, keyClazz, valueClazz);
+        } catch (IOException ex) {
+            throw new RuntimeException("Data source could not be parsed: " + ex.getMessage());
+        }
 
+        logger.debug("Loaded {} entries from file by path {}", parsed.size(), sourceFile.getPath());
         entities.putAll(parsed);
     }
 
     @PreDestroy
-    public void destroy() throws IOException {
+    public void destroy() {
         if (!saveUpdates || location == null || location.isEmpty()) {
             return;
         }
 
-        String content = JsonUtils.toJson(entities);
+        File destFile;
+        try {
+            String content = JsonUtils.toJson(entities);
 
-        File destFile = FilesUtils.getDataSource(location, valueClazz);
-        Files.writeString(destFile.toPath(), content);
+            destFile = FilesUtils.getDataSource(location, valueClazz);
+            Files.writeString(destFile.toPath(), content);
+        } catch (IOException ex) {
+            logger.error("Data source could not be saved: {}", ex.getMessage());
+            return;
+        }
+
+        logger.debug("Wrote {} entries to file by path {}", entities.size(), destFile.getPath());
     }
 }
