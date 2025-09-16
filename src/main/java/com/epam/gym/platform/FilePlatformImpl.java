@@ -24,7 +24,7 @@ public class FilePlatformImpl implements FilePlatform {
         File sourceFile = path.toFile();
         if (!sourceFile.exists()) {
             logger.warn("File via path {} does not exist", sourceFile.getPath());
-            throw new FileNotFoundException("File can not be read because provided path is null");
+            return null;
         }
 
         if (sourceFile.isDirectory()) {

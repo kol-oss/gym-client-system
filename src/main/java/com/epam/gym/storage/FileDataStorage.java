@@ -42,6 +42,9 @@ public class FileDataStorage<K, T> extends MapDataStorage<K, T> {
 
         try {
             String content = filePlatform.readDataFile(source);
+            if (content == null)
+                return;
+            
             parsed = JsonUtils.fromJson(content, keyClazz, valueClazz);
         } catch (IOException ex) {
             logger.error("Data source could not be parsed: {}", ex.getMessage());
