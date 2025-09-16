@@ -7,6 +7,7 @@ import com.epam.gym.platform.FilePlatform;
 import com.epam.gym.properties.AppProperties;
 import com.epam.gym.storage.DataStorage;
 import com.epam.gym.storage.FileDataStorage;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,8 @@ import java.util.UUID;
 
 @Configuration
 public class StorageConfig {
+    @Setter(onMethod_ = @Autowired)
     private AppProperties appProperties;
-
-    @Autowired
-    public void setAppProperties(AppProperties appProperties) {
-        this.appProperties = appProperties;
-    }
 
     private <K, T> DataStorage<K, T> initStorage(Class<K> key, Class<T> type, FilePlatform filePlatform) {
         FileDataStorage<K, T> storage = new FileDataStorage<>(key, type, appProperties.getStorageLocation(), appProperties.isSaveUpdates());

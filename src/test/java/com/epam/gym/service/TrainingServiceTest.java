@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +36,25 @@ public class TrainingServiceTest {
 
     @InjectMocks
     private TrainingServiceImpl trainingService;
+
+    @Test
+    public void givenExistingTrainee_whenFindAllTrainees_thenReturnAllTrainees() {
+        // Arrange
+        Training training = new Training();
+        training.setId(UUID.randomUUID());
+        training.setName("TrainingName");
+        training.setType(TrainingType.CARDIO_TRAINING);
+
+        List<Training> expected = List.of(training);
+        when(trainingDao.findAll()).thenReturn(expected);
+
+        // Act
+        List<Training> result = trainingService.findAllTrainings();
+
+        // Assert
+        assertEquals(expected, result);
+        verify(trainingDao, times(1)).findAll();
+    }
 
     @Test
     public void givenExistingTraining_whenFindTrainingById_thenReturnTraining() {
