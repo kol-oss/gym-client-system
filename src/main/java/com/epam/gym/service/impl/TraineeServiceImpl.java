@@ -1,6 +1,6 @@
 package com.epam.gym.service.impl;
 
-import com.epam.gym.dao.Dao;
+import com.epam.gym.dao.TraineeDao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.TraineeService;
@@ -19,7 +19,7 @@ public class TraineeServiceImpl implements TraineeService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private Dao<UUID, Trainee> traineeDao;
+    private TraineeDao traineeDao;
 
     @Autowired
     private UserService userService;

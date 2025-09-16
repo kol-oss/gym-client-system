@@ -1,5 +1,6 @@
-package com.epam.gym.dao;
+package com.epam.gym.dao.impl;
 
+import com.epam.gym.dao.Dao;
 import com.epam.gym.storage.DataStorage;
 import lombok.Setter;
 import org.slf4j.Logger;

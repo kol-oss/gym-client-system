@@ -1,6 +1,6 @@
 package com.epam.gym.service.impl;
 
-import com.epam.gym.dao.Dao;
+import com.epam.gym.dao.TrainerDao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.service.TrainerService;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class TrainerServiceImpl implements TrainerService {
     @Autowired
-    private Dao<UUID, Trainer> trainerDao;
+    private TrainerDao trainerDao;
 
     @Autowired
     private UserService userService;

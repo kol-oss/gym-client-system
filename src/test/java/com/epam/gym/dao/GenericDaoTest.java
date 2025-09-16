@@ -1,5 +1,6 @@
 package com.epam.gym.dao;
 
+import com.epam.gym.dao.impl.GenericDao;
 import com.epam.gym.storage.DataStorage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

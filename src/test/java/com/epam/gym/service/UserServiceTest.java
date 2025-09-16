@@ -1,7 +1,7 @@
 package com.epam.gym.service;
 
-import com.epam.gym.dao.TraineeDao;
-import com.epam.gym.dao.TrainerDao;
+import com.epam.gym.dao.impl.TraineeDaoImpl;
+import com.epam.gym.dao.impl.TrainerDaoImpl;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.User;
@@ -29,10 +29,10 @@ public class UserServiceTest {
     private AppProperties appProperties;
 
     @Mock
-    private TraineeDao traineeDao;
+    private TraineeDaoImpl traineeDao;
 
     @Mock
-    private TrainerDao trainerDao;
+    private TrainerDaoImpl trainerDao;
 
     @InjectMocks
     private UserServiceImpl userService;

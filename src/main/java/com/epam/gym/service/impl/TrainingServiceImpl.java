@@ -1,9 +1,9 @@
 package com.epam.gym.service.impl;
 
-import com.epam.gym.dao.Dao;
+import com.epam.gym.dao.TraineeDao;
+import com.epam.gym.dao.TrainerDao;
+import com.epam.gym.dao.TrainingDao;
 import com.epam.gym.exception.NotFoundException;
-import com.epam.gym.model.Trainee;
-import com.epam.gym.model.Trainer;
 import com.epam.gym.model.Training;
 import com.epam.gym.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ import java.util.UUID;
 @Service
 public class TrainingServiceImpl implements TrainingService {
     @Autowired
-    private Dao<UUID, Training> trainingDao;
+    private TrainingDao trainingDao;
 
     @Autowired
-    private Dao<UUID, Trainer> trainerDao;
+    private TrainerDao trainerDao;
 
     @Autowired
-    private Dao<UUID, Trainee> traineeDao;
+    private TraineeDao traineeDao;
 
     @Override
     public List<Training> findAllTrainings() {
