@@ -1,6 +1,8 @@
 package com.epam.gym.service;
 
-import com.epam.gym.dao.Dao;
+import com.epam.gym.dao.TraineeDao;
+import com.epam.gym.dao.TrainerDao;
+import com.epam.gym.dao.TrainingDao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
@@ -26,13 +28,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class TrainingServiceTest {
     @Mock
-    private Dao<UUID, Training> trainingDao;
+    private TrainingDao trainingDao;
 
     @Mock
-    private Dao<UUID, Trainer> trainerDao;
+    private TrainerDao trainerDao;
 
     @Mock
-    private Dao<UUID, Trainee> traineeDao;
+    private TraineeDao traineeDao;
 
     @InjectMocks
     private TrainingServiceImpl trainingService;
