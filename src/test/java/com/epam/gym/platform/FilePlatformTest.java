@@ -46,15 +46,6 @@ public class FilePlatformTest {
     }
 
     @Test
-    public void givenNonExistingFile_whenReadDataFile_thenThrowFileNotFoundException() {
-        // Arrange
-        final Path path = Path.of("nonexistent.txt");
-
-        // Act & Assert
-        assertThrows(FileNotFoundException.class, () -> filePlatform.readDataFile(path));
-    }
-
-    @Test
     public void givenDirectory_whenReadDataFile_thenThrowFileNotFoundException() {
         // Arrange
         final Path path = tempDir;

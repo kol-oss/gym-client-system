@@ -1,6 +1,6 @@
 package com.epam.gym.service;
 
-import com.epam.gym.dao.Dao;
+import com.epam.gym.dao.TraineeDao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.impl.TraineeServiceImpl;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class TraineeServiceTest {
     @Mock
-    private Dao<UUID, Trainee> traineeDao;
+    private TraineeDao traineeDao;
 
     @Mock
     private UserService userService;
