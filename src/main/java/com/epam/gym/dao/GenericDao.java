@@ -1,18 +1,19 @@
 package com.epam.gym.dao;
 
 import com.epam.gym.storage.DataStorage;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class GenericDao<K, T> implements Dao<K, T> {
+public class GenericDao<K, T> implements Dao<K, T> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Setter(onMethod_ = @Autowired)
     protected DataStorage<K, T> storage;
-
-    protected abstract void setStorage(DataStorage<K, T> storage);
 
     @Override
     public Optional<T> findById(K key) {
