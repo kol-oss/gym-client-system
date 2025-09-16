@@ -31,7 +31,9 @@ public class MapDataStorage<K, T> implements DataStorage<K, T> {
     }
 
     public void update(K key, T value) {
-        entities.put(key, value);
+        if (entities.containsKey(key)) {
+            entities.put(key, value);
+        }
     }
 
     public T delete(K key) {
