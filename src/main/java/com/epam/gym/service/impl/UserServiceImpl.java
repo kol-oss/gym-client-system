@@ -1,10 +1,12 @@
 package com.epam.gym.service.impl;
 
+import com.epam.gym.dao.TraineeDao;
+import com.epam.gym.dao.TrainerDao;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.User;
 import com.epam.gym.properties.AppProperties;
-import com.epam.gym.storage.DataStorage;
+import com.epam.gym.service.UserService;
 import com.epam.gym.utils.PasswordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +17,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
     private static final String USERNAME_REGEX_TEMPLATE = "%s(\\d+)?$";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private AppProperties appProperties;
-    private DataStorage<UUID, Trainee> traineeStorage;
-    private DataStorage<UUID, Trainer> trainerStorage;
+
+    @Autowired
+    private TraineeDao traineeDao;
+
+    @Autowired
+    private TrainerDao trainerDao;
 
     private static long getUsernameNumber(List<? extends User> users, String username) {
         return users.stream()
@@ -34,15 +40,9 @@ public class UserService {
         this.appProperties = appProperties;
     }
 
-    @Autowired
-    public void setStorages(DataStorage<UUID, Trainee> traineeStorage, DataStorage<UUID, Trainer> trainerStorage) {
-        this.traineeStorage = traineeStorage;
-        this.trainerStorage = trainerStorage;
-    }
-
     private long getOccurrences(String username) {
-        List<Trainee> trainees = traineeStorage.selectAll();
-        List<Trainer> trainers = trainerStorage.selectAll();
+        List<Trainee> trainees = traineeDao.findAll();
+        List<Trainer> trainers = trainerDao.findAll();
 
         return getUsernameNumber(trainees, username) + getUsernameNumber(trainers, username);
     }
@@ -65,7 +65,7 @@ public class UserService {
         return formatUsername(username, occurrences);
     }
 
-    protected User createUser(User user) {
+    public User preCreateUser(User user) {
         // Setting new id
         UUID userId = UUID.randomUUID();
         user.setId(userId);
@@ -83,7 +83,7 @@ public class UserService {
         return user;
     }
 
-    protected User updateUser(User user) {
+    public User preUpdateUser(User user) {
         // Setting username
         String username = user.getUsername();
         long occurrences = getOccurrences(username);

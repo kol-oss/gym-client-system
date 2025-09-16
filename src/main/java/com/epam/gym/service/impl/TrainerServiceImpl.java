@@ -4,6 +4,7 @@ import com.epam.gym.dao.Dao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.service.TrainerService;
+import com.epam.gym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +34,10 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Trainer createTrainer(Trainer trainer) {
-        Trainer validated = (Trainer) userService.createUser(trainer);
+        Trainer validated = (Trainer) userService.preCreateUser(trainer);
         trainerDao.insert(validated.getId(), validated);
 
-        return trainer;
+        return validated;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TrainerServiceImpl implements TrainerService {
         trainerDao.findById(id)
                 .orElseThrow(() -> new NotFoundException("Trainer with id " + id + " not found"));
 
-        Trainer validated = (Trainer) userService.updateUser(trainer);
+        Trainer validated = (Trainer) userService.preUpdateUser(trainer);
 
         trainerDao.update(id, validated);
         return trainer;

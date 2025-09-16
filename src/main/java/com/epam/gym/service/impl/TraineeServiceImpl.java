@@ -4,6 +4,7 @@ import com.epam.gym.dao.Dao;
 import com.epam.gym.exception.NotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.TraineeService;
+import com.epam.gym.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,11 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public Trainee createTrainee(Trainee trainee) {
-        Trainee validated = (Trainee) userService.createUser(trainee);
+        Trainee validated = (Trainee) userService.preCreateUser(trainee);
         traineeDao.insert(validated.getId(), validated);
 
         logger.info("Trainee with username {} and id {} was created", validated.getUsername(), validated.getId());
-        return trainee;
+        return validated;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TraineeServiceImpl implements TraineeService {
         traineeDao.findById(id)
                 .orElseThrow(() -> new NotFoundException("Trainee with id " + id + " not found so it can not be updated"));
 
-        Trainee validated = (Trainee) userService.updateUser(trainee);
+        Trainee validated = (Trainee) userService.preUpdateUser(trainee);
 
         traineeDao.update(id, validated);
         logger.debug("Trainee with username {} and id {} updated his data", trainee.getUsername(), trainee.getId());
