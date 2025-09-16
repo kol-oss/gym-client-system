@@ -9,6 +9,7 @@ import com.epam.gym.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +23,11 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
     private Dao<UUID, Trainee> traineeDao;
+
+    @Override
+    public List<Training> findAllTrainings() {
+        return trainingDao.findAll();
+    }
 
     @Override
     public Training findTrainingById(UUID id) {
